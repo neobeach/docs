@@ -37,7 +37,7 @@
 
 
     <title>
-      @neobeach/middlewares-request-logger
+      @neobeach/middlewares-redirect
     </title>
 
     <!--[if lt IE 9]>
@@ -104,7 +104,7 @@
     <div id="main" class="main-content">
       
       <h1 id='page-title' class="page-title">
-        @neobeach/middlewares-request-logger
+        @neobeach/middlewares-redirect
       </h1>
       
 
@@ -129,7 +129,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Log all incoming requests from Express</p></div>
+            <div class="description"><p>Simple redirect middleware</p></div>
         
 
         
@@ -144,6 +144,172 @@
 
 
 
+
+    <div class="method-member-container flex flex-col w-100 overflow-auto mt-20">
+        <strong>Parameters:</strong>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>redirects</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>An object containing all static and regex redirects</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>static</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An object containing all static redirects</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regex</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An object containing all regex redirects</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The HTTP status code used for the redirect</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
 
 
 
@@ -200,7 +366,7 @@
         <div class="details-item-container">
             <dt class="tag-source">Source:</dt>
             <dd class="tag-source"><ul class="dummy"><li>
-                <a href="request-logger_index.js.html">request-logger/index.js</a>, <a href="request-logger_index.js.html#line6">line 6</a>
+                <a href="redirect_index.js.html">redirect/index.js</a>, <a href="redirect_index.js.html#line6">line 6</a>
             </li></ul></dd>
         </div>
     
@@ -254,12 +420,12 @@
         
     <div class="rel">
     <pre class="prettyprint"><code>const {Runtime, Server} = require('@neobeach/core');
-const requestLogger = require('@neobeach/middlewares-request-logger');
+const redirect = require('@neobeach/middlewares-redirect');
 
 const server = new Server();
 
 Runtime(() => {
-   server.loadMiddlewares([requestLogger()]);
+   server.loadMiddlewares([redirect({static: {'/test': '/test1'}, regex: {'^/test123/.*': '/new'}})]);
    server.run();
 });</code></pre>
     
@@ -283,6 +449,81 @@ Runtime(() => {
 
     
 
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="~valid_status_options">
+    <a href="#~valid_status_options">#</a>
+    <span class="type-signature">(inner, constant) </span>valid_status_options<span class="type-signature"></span>
+</h4>
+
+
+
+
+<div class="description">
+    <p>Define statics</p>
+</div>
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class="details-item-container">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source"><ul class="dummy"><li>
+                <a href="redirect_index.js.html">redirect/index.js</a>, <a href="redirect_index.js.html#line36">line 36</a>
+            </li></ul></dd>
+        </div>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+        
     
 
     

@@ -37,7 +37,7 @@
 
 
     <title>
-      @neobeach/middlewares-request-logger
+      redirect/index.js
     </title>
 
     <!--[if lt IE 9]>
@@ -104,7 +104,7 @@
     <div id="main" class="main-content">
       
       <h1 id='page-title' class="page-title">
-        @neobeach/middlewares-request-logger
+        redirect/index.js
       </h1>
       
 
@@ -112,187 +112,132 @@
 
 
 
-
-<section>
-
-
-<header>
     
-        
-            
-        
-    
-</header>
-
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description"><p>Log all incoming requests from Express</p></div>
-        
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-        <div class="details-item-container">
-            <dt class="tag-since">Since:</dt>
-            <dd class="tag-since"><ul class="dummy"><li>1.0.0</li></ul></dd>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <div class="details-item-container">
-            <dt class="tag-author">Author:</dt>
-            <dd class="tag-author">
-                <ul>
-                    <li>Glenn de Haan</li>
-                </ul>
-            </dd>
-        </div>
-    
-
-    
-        <div class="details-item-container">
-            <dt class="tag-copyright">Copyright:</dt>
-            <dd class="tag-copyright"><ul class="dummy"><li>MIT</li></ul></dd>
-        </div>
-    
-
-    
-
-    
-
-    
-        <div class="details-item-container">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source"><ul class="dummy"><li>
-                <a href="request-logger_index.js.html">request-logger/index.js</a>, <a href="request-logger_index.js.html#line6">line 6</a>
-            </li></ul></dd>
-        </div>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class="method-member-container mt-20">
-    <strong>Returns:</strong>
-        
-            
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">function</span>
-
-
-    </dd>
-</dl>
-
-            
-    </div>
-
-
-
-    <div class="method-member-container flex flex-col w-100 overflow-auto mt-20">
-        <strong>Example</strong>
-        
-    <div class="rel">
-    <pre class="prettyprint"><code>const {Runtime, Server} = require('@neobeach/core');
-const requestLogger = require('@neobeach/middlewares-request-logger');
-
-const server = new Server();
-
-Runtime(() => {
-   server.loadMiddlewares([requestLogger()]);
-   server.run();
-});</code></pre>
-    
-    
-    </div>
-
-    </div>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Import vendor modules
+ */
+const {Logger} = require('@neobeach/core');
+
+/**
+ * Simple redirect middleware
+ *
+ * @module @neobeach/middlewares-redirect
+ * @access public
+ * @since 1.0.0
+ * @author Glenn de Haan
+ * @copyright MIT
+ *
+ * @param {Object} redirects - An object containing all static and regex redirects
+ * @param {Object} redirects.static - An object containing all static redirects
+ * @param {Object} redirects.regex - An object containing all regex redirects
+ * @param {Number} [status] - The HTTP status code used for the redirect
+ * @return {function(*, *, *)}
+ *
+ * @example
+ * const {Runtime, Server} = require('@neobeach/core');
+ * const redirect = require('@neobeach/middlewares-redirect');
+ *
+ * const server = new Server();
+ *
+ * Runtime(() => {
+ *    server.loadMiddlewares([redirect({static: {'/test': '/test1'}, regex: {'^/test123/.*': '/new'}})]);
+ *    server.run();
+ * });
+ */
+module.exports = (redirects = {}, status = 307) => {
+    /**
+     * Define statics
+     */
+    const valid_status_options = [301, 302, 307, 308];
+
+    /**
+     * Check if the provided redirects are correct
+     */
+    if (typeof redirects === 'undefined' || typeof redirects !== 'object') {
+        Logger.error("[REDIRECT] Option 'redirects' must be an Object");
+        process.exit(1);
+        return;
+    }
+    if (typeof redirects.static === 'undefined' || typeof redirects.static !== 'object') {
+        Logger.error("[REDIRECT] Option 'redirects.static' must be an Object");
+        process.exit(1);
+        return;
+    }
+    if (typeof redirects.regex === 'undefined' || typeof redirects.regex !== 'object') {
+        Logger.error("[REDIRECT] Option 'redirects.regex' must be an Object");
+        process.exit(1);
+        return;
+    }
+
+    /**
+     * Check if the provided status is correct
+     */
+    if (valid_status_options.indexOf(status) === -1) {
+        Logger.warn(`[REDIRECT] Invalid option 'status' supplied. Options: ${valid_status_options}`);
+        process.exit(1);
+        return;
+    }
+
+    /**
+     * Return the express middleware
+     */
+    return (req, res, next) => {
+        const reqUrl = req.originalUrl.replace(/\/$/, '');
+        const nonStrippedReqUrl = req.originalUrl;
+
+        // Check for static redirects
+        if (redirects.static[reqUrl]) {
+            Logger.info(`[EXPRESS][REDIRECT] Static redirect found: ${reqUrl} -> ${redirects.static[reqUrl]}`);
+            res.redirect(status, redirects.static[reqUrl]);
+            return;
+        }
+
+        // Check for regex redirects
+        const regexKeys = Object.keys(redirects.regex);
+        for (let item = 0; item &lt; regexKeys.length; item++) {
+            const reqRegex = regexKeys[item];
+            const matcher = new RegExp(reqRegex);
+
+            // Check if the provided regex matches the current url
+            if (matcher.test(reqUrl) || matcher.test(nonStrippedReqUrl)) {
+                const resUrl = redirects.regex[reqRegex];
+                Logger.info(`[EXPRESS][REDIRECT] Regex redirect found: ${reqRegex} -> ${resUrl}`);
+
+                // Check if the redirect url needs parts from the current url
+                if (/\$[0-9]/.test(resUrl)) {
+                    Logger.debug(`[EXPRESS][REDIRECT] Redirect url need parts from Current url`);
+
+                    const match = reqUrl.match(matcher);
+                    const nonStrippedMatch = nonStrippedReqUrl.match(matcher);
+
+                    if (nonStrippedMatch !== null &amp;&amp; nonStrippedMatch[1] !== 'undefined') {
+                        Logger.debug(`[EXPRESS][REDIRECT] Redirect url parts found!`);
+                        return res.redirect(status, resUrl.replace(/\$[0-9]/, `${nonStrippedMatch[1]}`));
+                    }
+
+                    // Check if we have a match available for replacement
+                    if (match !== null &amp;&amp; typeof match[1] !== 'undefined') {
+                        Logger.debug(`[EXPRESS][REDIRECT] Redirect url parts found!`);
+                        return res.redirect(status, resUrl.replace(/\$[0-9]/, `${match[1]}`));
+                    } else {
+                        Logger.debug(`[EXPRESS][REDIRECT] Redirect url parts not found!`);
+                        return res.redirect(status, resUrl.replace('$1', ''));
+                    }
+                } else {
+                    Logger.debug(`[EXPRESS][REDIRECT] Redirect url doesn't need parts from Current url`);
+                    return res.redirect(status, resUrl);
+                }
+            }
+        }
+
+        next();
+    };
+};
+</code></pre>
+        </article>
+    </section>
 
 
 
