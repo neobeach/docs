@@ -89,7 +89,7 @@
   <body>
 
     <nav class="navbar" id="navbar">
-      <div class="navbar-heading" id="navbar-heading"><a href="index.html"><h2 class="navbar-heading-text">Modules</h2></a></div><div class="search-box" id="search-box"><div class="search-box-input-container"><input class="search-box-input" type="text" placeholder="Search..." id="search-box-input" /><svg class="search-icon" alt="search-icon"><use xlink:href="#search-icon"></use></svg></div><div class="search-item-container" id="search-item-container"><ul class="search-item-ul" id="search-item-ul"></ul></div></div><div class="sidebar-main-content" id="sidebar-main-content"><ul><li class="menu-li"><a href='https://github.com/neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - GitHub</a></li><li class="menu-li"><a href='https://npmjs.com/@neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - NPM</a></li><li class="menu-li"><a href='https://neobeach.dev/core/' class=' menu-link' id='' target=''>Core - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/middlewares/' class=' menu-link' id='' target=''>Middlewares - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/modules/' class=' menu-link' id='' target=''>Modules - Documentation</a></li></ul><div class="accordion collapsed" id="7109280" > <h3 class="accordion-heading">Modules<svg><use xlink:href="#down-icon"></use></svg></h3><ul class="accordion-content"><li class="accordion collapsed child" id=2625808><div class="accordion-heading child"><a href="module-@neobeach_modules-graylog.html">@neobeach/modules-graylog</a><svg><use xlink:href="#down-icon"></use></svg></div><ul class='methods accordion-content'><li data-type='method'><a href="module-@neobeach_modules-graylog.html#.init">init</a></li><li data-type='method'><a href="module-@neobeach_modules-graylog.html#.send">send</a></li></ul></li><li class="accordion collapsed child" id=3610401><div class="accordion-heading child"><a href="module-@neobeach_modules-sendgrid.html">@neobeach/modules-sendgrid</a><svg><use xlink:href="#down-icon"></use></svg></div><ul class='methods accordion-content'><li data-type='method'><a href="module-@neobeach_modules-sendgrid.html#.init">init</a></li><li data-type='method'><a href="module-@neobeach_modules-sendgrid.html#.send">send</a></li></ul></li></ul> </div>
+      <div class="navbar-heading" id="navbar-heading"><a href="index.html"><h2 class="navbar-heading-text">Modules</h2></a></div><div class="search-box" id="search-box"><div class="search-box-input-container"><input class="search-box-input" type="text" placeholder="Search..." id="search-box-input" /><svg class="search-icon" alt="search-icon"><use xlink:href="#search-icon"></use></svg></div><div class="search-item-container" id="search-item-container"><ul class="search-item-ul" id="search-item-ul"></ul></div></div><div class="sidebar-main-content" id="sidebar-main-content"><ul><li class="menu-li"><a href='https://github.com/neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - GitHub</a></li><li class="menu-li"><a href='https://npmjs.com/@neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - NPM</a></li><li class="menu-li"><a href='https://neobeach.dev/core/' class=' menu-link' id='' target=''>Core - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/middlewares/' class=' menu-link' id='' target=''>Middlewares - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/modules/' class=' menu-link' id='' target=''>Modules - Documentation</a></li></ul><div class="accordion collapsed" id="1028534" > <h3 class="accordion-heading">Modules<svg><use xlink:href="#down-icon"></use></svg></h3><ul class="accordion-content"><li class="accordion collapsed child" id=9145395><div class="accordion-heading child"><a href="module-@neobeach_modules-graylog.html">@neobeach/modules-graylog</a><svg><use xlink:href="#down-icon"></use></svg></div><ul class='methods accordion-content'><li data-type='method'><a href="module-@neobeach_modules-graylog.html#.init">init</a></li><li data-type='method'><a href="module-@neobeach_modules-graylog.html#.send">send</a></li></ul></li><li class="accordion collapsed child" id=8835584><div class="accordion-heading child"><a href="module-@neobeach_modules-sendgrid.html">@neobeach/modules-sendgrid</a><svg><use xlink:href="#down-icon"></use></svg></div><ul class='methods accordion-content'><li data-type='method'><a href="module-@neobeach_modules-sendgrid.html#.init">init</a></li><li data-type='method'><a href="module-@neobeach_modules-sendgrid.html#.send">send</a></li></ul></li></ul> </div>
       
 
     </nav>
@@ -502,7 +502,7 @@ Runtime(() => {
 
     <h4 class="name" id=".send">
         <a href="#.send">#</a>
-        <span class="type-signature">(static) </span>send<span class="signature">(message, severity, shortMessage, payload)</span><span class="type-signature"></span>
+        <span class="type-signature">(static) </span>send<span class="signature">(message, severity, shortMessage<span class="signature-attributes">opt</span>, payload<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
     </h4>
 
     
@@ -535,6 +535,8 @@ Runtime(() => {
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -559,6 +561,14 @@ Runtime(() => {
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -595,6 +605,14 @@ Runtime(() => {
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -618,6 +636,16 @@ Runtime(() => {
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -640,6 +668,16 @@ Runtime(() => {
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
