@@ -89,7 +89,7 @@
   <body>
 
     <nav class="navbar" id="navbar">
-      <div class="navbar-heading" id="navbar-heading"><a href="index.html"><h2 class="navbar-heading-text">Middlewares</h2></a></div><div class="search-box" id="search-box"><div class="search-box-input-container"><input class="search-box-input" type="text" placeholder="Search..." id="search-box-input" /><svg class="search-icon" alt="search-icon"><use xlink:href="#search-icon"></use></svg></div><div class="search-item-container" id="search-item-container"><ul class="search-item-ul" id="search-item-ul"></ul></div></div><div class="sidebar-main-content" id="sidebar-main-content"><ul><li class="menu-li"><a href='https://github.com/neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - GitHub</a></li><li class="menu-li"><a href='https://npmjs.com/@neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - NPM</a></li><li class="menu-li"><a href='https://neobeach.dev/core/' class=' menu-link' id='' target=''>Core - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/middlewares/' class=' menu-link' id='' target=''>Middlewares - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/modules/' class=' menu-link' id='' target=''>Modules - Documentation</a></li></ul><div class="accordion collapsed" id="4837153" > <h3 class="accordion-heading">Modules<svg><use xlink:href="#down-icon"></use></svg></h3><ul class="accordion-content"><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-geoip.html">@neobeach/middlewares-geoip</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-old-browser.html">@neobeach/middlewares-old-browser</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-pwa.html">@neobeach/middlewares-pwa</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-redirect.html">@neobeach/middlewares-redirect</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-request-logger.html">@neobeach/middlewares-request-logger</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-robots-txt.html">@neobeach/middlewares-robots-txt</a></li></ul> </div>
+      <div class="navbar-heading" id="navbar-heading"><a href="index.html"><h2 class="navbar-heading-text">Middlewares</h2></a></div><div class="search-box" id="search-box"><div class="search-box-input-container"><input class="search-box-input" type="text" placeholder="Search..." id="search-box-input" /><svg class="search-icon" alt="search-icon"><use xlink:href="#search-icon"></use></svg></div><div class="search-item-container" id="search-item-container"><ul class="search-item-ul" id="search-item-ul"></ul></div></div><div class="sidebar-main-content" id="sidebar-main-content"><ul><li class="menu-li"><a href='https://github.com/neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - GitHub</a></li><li class="menu-li"><a href='https://npmjs.com/@neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - NPM</a></li><li class="menu-li"><a href='https://neobeach.dev/core/' class=' menu-link' id='' target=''>Core - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/middlewares/' class=' menu-link' id='' target=''>Middlewares - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/modules/' class=' menu-link' id='' target=''>Modules - Documentation</a></li></ul><div class="accordion collapsed" id="4894335" > <h3 class="accordion-heading">Modules<svg><use xlink:href="#down-icon"></use></svg></h3><ul class="accordion-content"><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-geoip.html">@neobeach/middlewares-geoip</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-old-browser.html">@neobeach/middlewares-old-browser</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-pwa.html">@neobeach/middlewares-pwa</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-redirect.html">@neobeach/middlewares-redirect</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-request-logger.html">@neobeach/middlewares-request-logger</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-robots-txt.html">@neobeach/middlewares-robots-txt</a></li></ul> </div>
       
 
     </nav>
@@ -123,13 +123,13 @@
 
     <section class="readme">
         <article><h1>neobeach/middlewares</h1>
-<p>Mono repo containing middleware implementation based on @neabeach/core.</p>
+<p>Repository containing middlewares implementations based on the @neabeach/core.</p>
 <h2>What are middlewares</h2>
 <p>Middleware functions are functions that have access to the request object (req), the response object (res), and the next function in the application’s request-response cycle.
 The middleware functions will be performed on every request made to the application. It is used to perform certain actions before the page is loaded.</p>
 <h2>How to implement middlewares in neobeach</h2>
 <p>To implement middlewares you have to first require them in the <code>server.js</code> file. After this you have to load them in via <code>server.loadMiddlewares</code> functions inside <code>Runtime</code>.
-Inside <code>Runtime</code> you can decide the order the middlewares are loaded in. You can also just collect them all inside an array and load them all in at once.</p>
+You can collect the middleware functions together in one array and load them all at once.</p>
 <p>Example from the <code>server.js</code>file.</p>
 <pre class="prettyprint source lang-javascript"><code>const {Runtime, Server} = require('@neobeach/core');
 const requestLogger = require('@neobeach/middlewares-request-logger');
@@ -143,9 +143,9 @@ const server = new Server();
  */
 const globalMiddleware = [
     requestLogger(),
-    oldBrowser()
+    oldBrowser(),
+    pwa()
 ];
-
 
 /**
  * Create a runtime/sandbox to start the server in
@@ -154,7 +154,6 @@ Runtime(() => {
     server.includeDefaultBodyParsers();
     server.loadMiddlewares(globalMiddleware);
     server.loadRouters(routers);
-    server.loadMiddlewares(pwa);
     server.run();
 });
 
