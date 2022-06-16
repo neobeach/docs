@@ -89,7 +89,7 @@
   <body>
 
     <nav class="navbar" id="navbar">
-      <div class="navbar-heading" id="navbar-heading"><a href="index.html"><h2 class="navbar-heading-text">Middlewares</h2></a></div><div class="search-box" id="search-box"><div class="search-box-input-container"><input class="search-box-input" type="text" placeholder="Search..." id="search-box-input" /><svg class="search-icon" alt="search-icon"><use xlink:href="#search-icon"></use></svg></div><div class="search-item-container" id="search-item-container"><ul class="search-item-ul" id="search-item-ul"></ul></div></div><div class="sidebar-main-content" id="sidebar-main-content"><ul><li class="menu-li"><a href='https://github.com/neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - GitHub</a></li><li class="menu-li"><a href='https://npmjs.com/@neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - NPM</a></li><li class="menu-li"><a href='https://neobeach.dev/core/' class=' menu-link' id='' target=''>Core - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/middlewares/' class=' menu-link' id='' target=''>Middlewares - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/modules/' class=' menu-link' id='' target=''>Modules - Documentation</a></li></ul><div class="accordion collapsed" id="92185" > <h3 class="accordion-heading">Modules<svg><use xlink:href="#down-icon"></use></svg></h3><ul class="accordion-content"><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-geoip.html">@neobeach/middlewares-geoip</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-old-browser.html">@neobeach/middlewares-old-browser</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-pwa.html">@neobeach/middlewares-pwa</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-redirect.html">@neobeach/middlewares-redirect</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-request-logger.html">@neobeach/middlewares-request-logger</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-robots-txt.html">@neobeach/middlewares-robots-txt</a></li></ul> </div>
+      <div class="navbar-heading" id="navbar-heading"><a href="index.html"><h2 class="navbar-heading-text">Middlewares</h2></a></div><div class="search-box" id="search-box"><div class="search-box-input-container"><input class="search-box-input" type="text" placeholder="Search..." id="search-box-input" /><svg class="search-icon" alt="search-icon"><use xlink:href="#search-icon"></use></svg></div><div class="search-item-container" id="search-item-container"><ul class="search-item-ul" id="search-item-ul"></ul></div></div><div class="sidebar-main-content" id="sidebar-main-content"><ul><li class="menu-li"><a href='https://github.com/neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - GitHub</a></li><li class="menu-li"><a href='https://npmjs.com/@neobeach/core' class=' menu-link' id='' target='_blank'>@neobeach/core - NPM</a></li><li class="menu-li"><a href='https://neobeach.dev/core/' class=' menu-link' id='' target=''>Core - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/middlewares/' class=' menu-link' id='' target=''>Middlewares - Documentation</a></li><li class="menu-li"><a href='https://neobeach.dev/modules/' class=' menu-link' id='' target=''>Modules - Documentation</a></li></ul><div class="accordion collapsed" id="2519589" > <h3 class="accordion-heading">Modules<svg><use xlink:href="#down-icon"></use></svg></h3><ul class="accordion-content"><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-geoip.html">@neobeach/middlewares-geoip</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-old-browser.html">@neobeach/middlewares-old-browser</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-pwa.html">@neobeach/middlewares-pwa</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-redirect.html">@neobeach/middlewares-redirect</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-request-logger.html">@neobeach/middlewares-request-logger</a></li><li class="accordion-list" id=""><a href="module-@neobeach_middlewares-robots-txt.html">@neobeach/middlewares-robots-txt</a></li></ul> </div>
       
 
     </nav>
@@ -131,6 +131,7 @@ const {Logger} = require('@neobeach/core');
  *
  * @param {String} name - Completed full name of the application. (maximum of 45 characters)
  * @param {String} shortName - Name to display when name is too long. (maximum of 12 characters recommended)
+ * @param {String} description - Description of the application
  * @param {String} themeColor - Hex of the color that will be used as theme.
  * @param {String} backgroundColor - Hex of the color that will be used as background color.
  * @param {String} version - Version to give back in service worker.
@@ -148,11 +149,7 @@ const {Logger} = require('@neobeach/core');
  *      server.run();
  * });
  */
-module.exports = (name, shortName, themeColor, backgroundColor, version, customServiceWorker = false) => {
-    Logger.info(`[PWA] Enabled! App Name: ${name}, App Short Name: ${shortName}, Theme Color: ${themeColor}, Background Color: ${backgroundColor}`);
-    Logger.info(`[PWA] Exposed: /manifest.json`);
-    Logger.info(`[PWA] Exposed: /sw.js`);
-
+module.exports = (name, shortName, description, themeColor, backgroundColor, version, customServiceWorker = false) => {
     return (req, res, next) => {
         /**
          * Check if name is correct
@@ -168,6 +165,15 @@ module.exports = (name, shortName, themeColor, backgroundColor, version, customS
          */
         if(typeof shortName === "undefined" || typeof shortName !== "string" || shortName === "") {
             Logger.error("[PWA] shortName is not correct");
+            process.exit(1);
+            return;
+        }
+
+        /**
+         * Check if description is correct
+         */
+        if(typeof description === "undefined" || typeof description !== "string" || description === "") {
+            Logger.error("[PWA] description is not correct")
             process.exit(1);
             return;
         }
@@ -203,6 +209,7 @@ module.exports = (name, shortName, themeColor, backgroundColor, version, customS
             const manifest = {
                 short_name: shortName,
                 name: name,
+                description: description,
                 icons: [
                     {
                         src: "/images/icons-192.png",
@@ -275,7 +282,6 @@ module.exports = (name, shortName, themeColor, backgroundColor, version, customS
                     }
                 });`
             );
-            return;
         }
 
         next();
